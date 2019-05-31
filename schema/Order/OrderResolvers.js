@@ -1,4 +1,5 @@
 const Order = require('../../models/order/Order');
+const Widget = require('../../models/Widget/Widget');
 
 const orderResolvers = {
   Query: {
@@ -17,6 +18,12 @@ const orderResolvers = {
   Mutation: {
     createOrder: async (obj, args) => {
       const { widgets } = args;
+      widgets.map(item => {
+        const { id, quantity } = item;
+        Widget.findByPk(parseInt(id)).then(widget => {
+          return widget.decrement('quantity', {by: quantity})
+        })
+      });
       const stringifiedWidgets = JSON.stringify(widgets);
       const result = await Order.create({ widgets: stringifiedWidgets });
       const { id } = result.dataValues;

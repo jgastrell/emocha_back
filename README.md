@@ -1,2 +1,3 @@
-# emocha_back
-coding challenge for the back end
+git clone<br>
+npm install<br>
+npm start<br>
